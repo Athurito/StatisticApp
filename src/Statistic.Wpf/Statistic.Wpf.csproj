@@ -15,4 +15,18 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Converters\" />
+      <Folder Include="Services\" />
+      <Folder Include="ViewModel\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="View\MainWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
 </Project>
