@@ -18,15 +18,19 @@
     <ItemGroup>
       <Folder Include="Converters\" />
       <Folder Include="Services\" />
-      <Folder Include="ViewModel\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="View\MainWindow.xaml">
+      <Page Update="View\StatisticWindow.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Statistic.Application\Statistic.Application.csproj" />
+      <ProjectReference Include="..\Statistic.Infrastructure\Statistic.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
