@@ -3,9 +3,127 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewModel="clr-namespace:Statistic.Wpf.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Width="1300"
+        Height="800"
+        d:DataContext="{d:DesignInstance Type=viewModel:StatisticViewModel}"
+        FontSize="18"
+        ResizeMode="CanMinimize"
+        Title="MainWindow">
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center"
+            FontSize="30"
+            FontWeight="Bold"
+            Text="Statistik-Besucher"
+            TextDecorations="Underline" />
+
+
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                Grid.Column="0"
+                Margin="0,0,10,0"
+                materialDesign:HintAssist.Hint="Postleitzahl"
+                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}">
+
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="TextChanged">
+                        <b:InvokeCommandAction Command="{Binding ZipCodeTextChangedCommand}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </TextBox>
+
+            <ListBox
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                ItemsSource="{Binding Addresses}"
+                SelectedItem="{Binding SelectedAddress, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MaterialDesignChoiceChipOutlineListBox}">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="SelectionChanged">
+                        <b:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+            </ListBox>
+            <!--<ComboBox
+                Grid.Column="1"
+                materialDesign:HintAssist.Hint="Ort"
+                ItemsSource="{Binding Addresses}"
+                SelectedIndex="{Binding SelectedIndex}"
+                SelectedItem="{Binding SelectedAddress, Mode=TwoWay}"
+                Style="{StaticResource MaterialDesignOutlinedComboBox}" />-->
+        </Grid>
+
+        <TextBlock
+            Grid.Row="2"
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center"
+            FontSize="22"
+            FontWeight="Bold"
+            Text="Interessen" />
+
+        <StackPanel
+            Grid.Row="3"
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center">
+            <CheckBox Content="Allgemein" IsChecked="{Binding InterestsCheckedList[0].IsChecked}" />
+            <CheckBox Content="BFI Anwendungsentwickler" IsChecked="{Binding InterestsCheckedList[1].IsChecked}" />
+            <CheckBox Content="BFI Systemintegration" IsChecked="{Binding InterestsCheckedList[2].IsChecked}" />
+            <CheckBox Content="Informationstechniker" IsChecked="{Binding InterestsCheckedList[3].IsChecked}" />
+            <CheckBox Content="Wirtschaftsinformatiker" IsChecked="{Binding InterestsCheckedList[4].IsChecked}" />
+        </StackPanel>
+
+        <Button
+            Grid.Row="4"
+            Width="100"
+            Margin="0,0,0,20"
+            Command="{Binding AddNewVisitorCommand}"
+            Content="Speichern" />
+
+        <DataGrid
+            Grid.Row="5"
+            AutoGenerateColumns="False"
+            Background="Transparent"
+            BorderThickness="1"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            CanUserReorderColumns="False"
+            CanUserResizeColumns="False"
+            CellStyle="{DynamicResource DatagridCellWithoutBorder}"
+            FontSize="16"
+            HorizontalScrollBarVisibility="Disabled"
+            IsReadOnly="True"
+            ItemsSource="{Binding Visitors}"
+            Style="{StaticResource MaterialDesignDataGrid}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding CreateTime, StringFormat=HH:mm:ss}" Header="ErstellZeit" />
+                <DataGridTextColumn Binding="{Binding ZipCode}" Header="Postleitzahl" />
+                <DataGridTextColumn Binding="{Binding Town}" Header="Ort" />
+                <DataGridCheckBoxColumn Binding="{Binding Interest1}" Header="Allgemein" />
+                <DataGridCheckBoxColumn Binding="{Binding Interest2}" Header="Anwendungsentwickler" />
+                <DataGridCheckBoxColumn Binding="{Binding Interest3}" Header="Systemintegration" />
+                <DataGridCheckBoxColumn Binding="{Binding Interest4}" Header="Informationstechniker" />
+                <DataGridCheckBoxColumn Binding="{Binding Interest5}" Header="Wirtschaftsinformatiker" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
