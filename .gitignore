@@ -1,0 +1,29 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+FodyWeavers.xsd
+
+# Rider .idea directory
+.idea/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Rider-specific
+*.sln.iml
+
+# Windows binaries
+*.dll
+*.exe
+
+# VS Code directories
+.vscode/
