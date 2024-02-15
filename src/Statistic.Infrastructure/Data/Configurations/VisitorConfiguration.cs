@@ -8,9 +8,9 @@ public class VisitorConfiguration : IEntityTypeConfiguration<Visitor>
 {
     public void Configure(EntityTypeBuilder<Visitor> builder)
     {
-        builder
-            .HasOne(v => v.Address)
+        builder.HasKey(r => r.Id);
+        builder.HasOne(v => v.Address)
             .WithOne(a => a.Visitor)
-            .HasForeignKey<Address>(a => a.Id);
+            .HasForeignKey<Address>(a => a.VisitorId);
     }
 }
