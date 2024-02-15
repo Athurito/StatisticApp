@@ -7,12 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Configurations\" />
       <Folder Include="Exceptions\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Statistic.Domain\Statistic.Domain.csproj" />
     </ItemGroup>
 
 </Project>
