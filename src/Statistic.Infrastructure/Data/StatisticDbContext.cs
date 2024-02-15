@@ -7,11 +7,14 @@ namespace Statistic.Infrastructure.Data;
 public class StatisticDbContext : DbContext
 {
     private DbSet<Visitor>? Visitors { get; set; }
-
-    public StatisticDbContext(DbContextOptions options) : base(options)
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        
+        optionsBuilder.UseMySQL(
+            "server=localhost;Uid=bayerles;pwd=geheim;database=statistic;allowuservariables=True;SslMode=None");
+        base.OnConfiguring(optionsBuilder);
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Statistic.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Statistic.Infrastructure.Extensions;
-using Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjectionExtension
 {

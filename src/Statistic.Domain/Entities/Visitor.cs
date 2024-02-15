@@ -4,7 +4,7 @@ namespace Statistic.Domain.Entities;
 
 public class Visitor
 {
-    public Guid Uid { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreateDate { get; set; }
     public List<VisitorInterests> VisitorInterests { get; set; }
     public Address Address { get; set; }
