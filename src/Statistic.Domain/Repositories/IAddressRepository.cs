@@ -4,5 +4,11 @@ namespace Statistic.Domain.Repositories;
 
 public interface IAddressRepository
 {
-    public IEnumerable<Address> GetAll();
+    /// <summary>
+    /// Retrieves all addresses from the address repository.
+    /// </summary>
+    /// <returns>
+    /// Returns a collection of Address objects representing all addresses.
+    /// </returns>
+    public Task<IEnumerable<Address>> GetAll();
 }
