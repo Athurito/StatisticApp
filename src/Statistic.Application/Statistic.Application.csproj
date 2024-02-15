@@ -7,12 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs\" />
-      <Folder Include="Services\" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <ProjectReference Include="..\Statistic.Domain\Statistic.Domain.csproj" />
     </ItemGroup>
 
 </Project>
