@@ -16,19 +16,6 @@ namespace Statistic.Infrastructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Visitors",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visitors", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
                 {
@@ -36,15 +23,30 @@ namespace Statistic.Infrastructure.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     ZipCode = table.Column<string>(type: "longtext", nullable: false),
                     Town = table.Column<string>(type: "longtext", nullable: false),
-                    VisitorId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    FederalState = table.Column<string>(type: "longtext", nullable: false),
+                    District = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Address", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Visitors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visitors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Address_Visitors_VisitorId",
-                        column: x => x.VisitorId,
-                        principalTable: "Visitors",
+                        name: "FK_Visitors_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -70,9 +72,9 @@ namespace Statistic.Infrastructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_VisitorId",
-                table: "Address",
-                column: "VisitorId",
+                name: "IX_Visitors_AddressId",
+                table: "Visitors",
+                column: "AddressId",
                 unique: true);
         }
 
@@ -80,13 +82,13 @@ namespace Statistic.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
-
-            migrationBuilder.DropTable(
                 name: "VisitorInterests");
 
             migrationBuilder.DropTable(
                 name: "Visitors");
+
+            migrationBuilder.DropTable(
+                name: "Address");
         }
     }
 }

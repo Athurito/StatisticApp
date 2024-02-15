@@ -11,6 +11,6 @@ public class VisitorConfiguration : IEntityTypeConfiguration<Visitor>
         builder.HasKey(r => r.Id);
         builder.HasOne(v => v.Address)
             .WithOne(a => a.Visitor)
-            .HasForeignKey<Address>(a => a.VisitorId);
+            .HasForeignKey<Visitor>(a => a.AddressId);
     }
 }

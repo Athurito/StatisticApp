@@ -11,7 +11,7 @@ using Statistic.Infrastructure.Data;
 namespace Statistic.Infrastructure.Migrations
 {
     [DbContext(typeof(StatisticDbContext))]
-    [Migration("20240215012004_Initial")]
+    [Migration("20240215013325_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -28,21 +28,23 @@ namespace Statistic.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Town")
+                    b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("VisitorId")
-                        .HasColumnType("char(36)");
+                    b.Property<string>("FederalState")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VisitorId")
-                        .IsUnique();
 
                     b.ToTable("Address");
                 });
@@ -53,10 +55,16 @@ namespace Statistic.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
 
                     b.ToTable("Visitors");
                 });
@@ -74,15 +82,15 @@ namespace Statistic.Infrastructure.Migrations
                     b.ToTable("VisitorInterests");
                 });
 
-            modelBuilder.Entity("Statistic.Domain.Entities.Address", b =>
+            modelBuilder.Entity("Statistic.Domain.Entities.Visitor", b =>
                 {
-                    b.HasOne("Statistic.Domain.Entities.Visitor", "Visitor")
-                        .WithOne("Address")
-                        .HasForeignKey("Statistic.Domain.Entities.Address", "VisitorId")
+                    b.HasOne("Statistic.Domain.Entities.Address", "Address")
+                        .WithOne("Visitor")
+                        .HasForeignKey("Statistic.Domain.Entities.Visitor", "AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Visitor");
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Statistic.Domain.Entities.VisitorInterests", b =>
@@ -96,11 +104,13 @@ namespace Statistic.Infrastructure.Migrations
                     b.Navigation("Visitor");
                 });
 
+            modelBuilder.Entity("Statistic.Domain.Entities.Address", b =>
+                {
+                    b.Navigation("Visitor");
+                });
+
             modelBuilder.Entity("Statistic.Domain.Entities.Visitor", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
-
                     b.Navigation("VisitorInterests");
                 });
 #pragma warning restore 612, 618
