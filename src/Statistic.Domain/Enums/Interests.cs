@@ -2,7 +2,7 @@ namespace Statistic.Domain.Enums;
 
 public enum Interests
 {
-    Bfi = 1,
+    Bfi,
     Sy,
     Fwi,
     Wit,
