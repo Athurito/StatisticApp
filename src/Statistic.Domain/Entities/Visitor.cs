@@ -6,7 +6,7 @@ public class Visitor
 {
     public Guid Id { get; set; }
     public DateTime CreateDate { get; set; }
-    public List<VisitorInterests> VisitorInterests { get; set; }
+    public List<VisitorInterests> VisitorInterests { get; set; } = [];
     public Address? Address { get; set; }
     public int AddressId { get; set; }
 }
