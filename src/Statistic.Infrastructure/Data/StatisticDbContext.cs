@@ -6,7 +6,8 @@ namespace Statistic.Infrastructure.Data;
 
 public class StatisticDbContext : DbContext
 {
-    private DbSet<Visitor>? Visitors { get; set; }
+    public DbSet<Visitor>? Visitors { get; set; }
+    public DbSet<Address>? Addresses { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
