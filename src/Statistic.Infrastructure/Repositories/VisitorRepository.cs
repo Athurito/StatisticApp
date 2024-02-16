@@ -22,6 +22,8 @@ public class VisitorRepository : IVisitorRepository
 
     public async Task<IEnumerable<Visitor>> GetAll()
     {
-       return await _context.Visitors!.ToListAsync();
+        return await _context.Visitors!
+            .Include(r => r.VisitorInterests)
+            .ToListAsync();
     }
 }
