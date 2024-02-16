@@ -11,7 +11,7 @@ using Statistic.Infrastructure.Data;
 namespace Statistic.Infrastructure.Migrations
 {
     [DbContext(typeof(StatisticDbContext))]
-    [Migration("20240215013325_Initial")]
+    [Migration("20240216000458_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace Statistic.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("Statistic.Domain.Entities.Visitor", b =>

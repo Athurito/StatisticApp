@@ -43,7 +43,7 @@ namespace Statistic.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("Statistic.Domain.Entities.Visitor", b =>

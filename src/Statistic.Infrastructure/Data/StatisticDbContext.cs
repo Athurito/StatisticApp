@@ -8,7 +8,11 @@ public class StatisticDbContext : DbContext
 {
     public DbSet<Visitor>? Visitors { get; set; }
     public DbSet<Address>? Addresses { get; set; }
-    
+
+    public StatisticDbContext(DbContextOptions<StatisticDbContext> options) : base(options)
+    {
+        
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseMySQL(

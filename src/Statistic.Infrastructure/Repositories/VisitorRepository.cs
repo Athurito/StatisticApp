@@ -16,15 +16,12 @@ public class VisitorRepository : IVisitorRepository
     
     public async Task CreateVisitor(Visitor visitor)
     {
-        await using var context = _context;
-
-        await context.Visitors!.AddAsync(visitor);
+        await _context.Visitors!.AddAsync(visitor);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Visitor>> GetAll()
     {
-        await using var context = _context;
-
-        return await context.Visitors!.ToListAsync();
+       return await _context.Visitors!.ToListAsync();
     }
 }
