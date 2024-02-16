@@ -16,12 +16,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Converters\" />
       <Folder Include="Services\" />
     </ItemGroup>
 
     <ItemGroup>
       <Page Update="View\StatisticWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Styles\Style.xaml">
         <Generator>MSBuild:Compile</Generator>
         <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
