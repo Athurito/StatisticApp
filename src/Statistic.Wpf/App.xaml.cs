@@ -4,6 +4,7 @@ using Statistic.Application.Extensions;
 using Statistic.Infrastructure.Extensions;
 using Statistic.Wpf.Extensions;
 using Statistic.Wpf.View;
+using Statistic.Wpf.ViewModel;
 
 namespace Statistic.Wpf;
 
@@ -17,6 +18,7 @@ public partial class App : System.Windows.Application
     protected override void OnStartup(StartupEventArgs e)
     {
         MainWindow = _serviceProvider!.GetRequiredService<StatisticWindow>();
+        MainWindow.DataContext = _serviceProvider!.GetRequiredService<StatisticViewModel>();
         MainWindow.ShowDialog();
     }
 
