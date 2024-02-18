@@ -37,4 +37,21 @@
       <ProjectReference Include="..\Statistic.Infrastructure\Statistic.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Images\BszLogoIcon.png" />
+      <Resource Include="Images\BszLogoIcon.png" />
+      <None Remove="Images\BSZWDunkelBlau.jpg" />
+      <Resource Include="Images\BSZWDunkelBlau.jpg" />
+      <None Remove="Images\BSZWDunkelRot.jpg" />
+      <Resource Include="Images\BSZWDunkelRot.jpg" />
+      <None Remove="Images\BSZWHellBlau.jpg" />
+      <Resource Include="Images\BSZWHellBlau.jpg" />
+      <None Remove="Images\BSZWRot.jpg" />
+      <Resource Include="Images\BSZWRot.jpg" />
+      <None Remove="Images\BSZWSchwarz.jpg" />
+      <Resource Include="Images\BSZWSchwarz.jpg" />
+      <None Remove="Images\BSZLogoIconBlue.png" />
+      <Resource Include="Images\BSZLogoIconBlue.png" />
+    </ItemGroup>
+
 </Project>
