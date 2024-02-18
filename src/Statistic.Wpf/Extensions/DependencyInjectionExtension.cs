@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Statistic.Wpf.Services;
 using Statistic.Wpf.View;
 using Statistic.Wpf.ViewModel;
 
@@ -10,6 +11,7 @@ public static class DependencyInjectionExtension
     {
         service.AddTransient<StatisticWindow>();
         service.AddTransient<StatisticViewModel>();
+        service.AddTransient<IDialogService, DialogService>();
         return service;
     }
 }
