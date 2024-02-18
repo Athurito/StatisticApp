@@ -13,8 +13,12 @@ public static class DependencyInjectionExtension
         service.AddTransient<IVisitorRepository, VisitorRepository>();
         service.AddTransient<IAddressRepository, AddressRepository>();
         
-        service.AddDbContext<StatisticDbContext>(options=>
-            options.UseMySQL("server=localhost;Uid=bayerles;pwd=geheim;database=statistic;allowuservariables=True;SslMode=None"));
+        // service.AddDbContext<StatisticDbContext>(options=>
+        //     options.UseMySQL("server=localhost;Uid=bayerles;pwd=geheim;database=statistic;allowuservariables=True;SslMode=None"));
+
+        service.AddDbContextFactory<StatisticDbContext>(options =>
+            options.UseMySQL(
+                "server=localhost;Uid=bayerles;pwd=geheim;database=statistic;allowuservariables=True;SslMode=None"));
         return service;
     }
 }

@@ -13,13 +13,6 @@ public class StatisticDbContext : DbContext
     {
         
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseMySQL(
-            "server=localhost;Uid=bayerles;pwd=geheim;database=statistic;allowuservariables=True;SslMode=None");
-        base.OnConfiguring(optionsBuilder);
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
