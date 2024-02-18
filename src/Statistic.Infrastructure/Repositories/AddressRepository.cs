@@ -7,14 +7,15 @@ namespace Statistic.Infrastructure.Repositories;
 
 public class AddressRepository : IAddressRepository
 {
-    private readonly StatisticDbContext _context;
+    private readonly IDbContextFactory<StatisticDbContext> _context;
 
-    public AddressRepository(StatisticDbContext context)
+    public AddressRepository(IDbContextFactory<StatisticDbContext> context)
     {
         _context = context;
     }
     public async Task<IEnumerable<Address>> GetAll()
     {
-        return await _context.Addresses!.ToListAsync();
+        await using var context = await _context.CreateDbContextAsync();
+        return await context.Addresses!.ToListAsync();
     }
 }
