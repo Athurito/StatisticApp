@@ -24,7 +24,14 @@ public class VisitorService : IVisitorService
     public async Task<IEnumerable<VisitorDto>> GetAll()
     {
         var visitors = await _visitorRepository.GetAll();
-        return visitors.Select(ConvertVisitorToDto).ToList();;
+        var visitorList = visitors.ToList();
+        
+        if (visitorList.Count == 0)
+        {
+            return Enumerable.Empty<VisitorDto>();
+        }
+        
+        return visitorList.Select(ConvertVisitorToDto).ToList();;
     }
 
     private static VisitorDto ConvertVisitorToDto(Visitor visitor)
@@ -71,7 +78,7 @@ public class VisitorService : IVisitorService
         {
             Id = userId,
             CreateDate = visitorDto.CreateDate,
-            AddressId = visitorDto.AddressDto.Id,
+            AddressId = visitorDto.AddressDto!.Id,
             VisitorInterests = interests
         };
         return visitor;
