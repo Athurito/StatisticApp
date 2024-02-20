@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Statistic.Application.Extensions;
+using Statistic.Infrastructure.Configuration;
 using Statistic.Infrastructure.Data;
 using Statistic.Infrastructure.Extensions;
 using Statistic.Wpf.Extensions;
@@ -13,12 +16,14 @@ namespace Statistic.Wpf;
 public partial class App : System.Windows.Application
 {
     private IServiceProvider? _serviceProvider;
+    
     public App()
     {
         RegisterServices();
     }
     protected override void OnStartup(StartupEventArgs e)
     {
+        ConfigureConfiguration();
         EnsureDataBase();
         OpenMainWindow();
     }
@@ -40,10 +45,24 @@ public partial class App : System.Windows.Application
     private void RegisterServices()
     {
         IServiceCollection services = new ServiceCollection();
+        
         services.AddApplication();
         services.AddInfrastructure();
         services.AddWpf();
-
+        //AppSettings.ConnectionString = builder.GetConnectionString("school");
         _serviceProvider = services.BuildServiceProvider();
+    }
+
+    private static void ConfigureConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+#if WORKING
+        AppSettings.ConnectionString = builder.GetConnectionString("home");
+#else
+        AppSettings.ConnectionString = builder.GetConnectionString("school");
+#endif
     }
 }
