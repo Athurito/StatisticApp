@@ -10,14 +10,25 @@
         mc:Ignorable="d"
         Width="1600"
         Height="1200"
+        Icon="/Images/BSZLogoIconBlue.png" 
         d:DataContext="{d:DesignInstance Type=viewModel:StatisticViewModel}"
         FontSize="20"
-        ResizeMode="CanResize">
-        
-    
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+       
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <converters:InverseBoolToVis x:Key="InverseBoolToVis" />
+        
+        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+               x:Key="DataGridCheckBoxColumnHeaderStyle">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    
+        <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}"
+               x:Key="DataGridCheckBoxColumnElementStyle">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     
     <b:Interaction.Triggers>
@@ -26,12 +37,43 @@
         </b:EventTrigger>
     </b:Interaction.Triggers>
 
-    <Grid Margin="20">
-        
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        
+        <materialDesign:ColorZone Mode="PrimaryDark"
+                                  Padding="16"                    
+                                  materialDesign:ElevationAssist.Elevation="Dp8"
+                                  ClipToBounds="False"> 
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Besucher Statistik"
+                           FontSize="35"
+                           VerticalAlignment="Center"
+                           Margin="20 0 0 0"/>
+                <Button Grid.Column="1" 
+                        Style="{StaticResource MaterialDesignIconForegroundButton}"
+                        Background="Transparent"
+                        Height="70"
+                        Width="70"
+                        ToolTip="Pdf erstellen"
+                        HorizontalAlignment="Right"
+                        Margin="0 0 20 0"
+                        Command="{Binding CreatePdfCommand}">
+                    
+                    <materialDesign:PackIcon Kind="FilePdfBox"
+                                             Height="70"
+                                             Width="70"/>
+                </Button>
+            </Grid>
+        </materialDesign:ColorZone>
         
         <ProgressBar
             Grid.Row="1"
@@ -46,130 +88,153 @@
               Visibility="{Binding WindowLoadedCommand.IsRunning, Converter={StaticResource InverseBoolToVis}}">
             
             <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
 
-        <TextBlock
-            Grid.Row="0"
-            Margin="0,0,0,20"
-            HorizontalAlignment="Center"
-            FontSize="30"
-            FontWeight="Bold"
-            Text="Besucher Statistik"
-            TextDecorations="Underline" />
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <TextBox
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        materialDesign:HintAssist.Hint="Postleitzahl"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}">
 
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="TextChanged">
+                                <b:InvokeCommandAction Command="{Binding ZipCodeTextChangedCommand}" />
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </TextBox>
+                    
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="0,20,0,20"
+                        HorizontalAlignment="Center"
+                        FontSize="30"
+                        FontWeight="Bold"
+                        Text="Interessen" />
 
-        <Grid Grid.Row="1" Margin="0,0,0,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBox
-                Grid.Column="0"
-                Margin="0,0,10,0"
-                materialDesign:HintAssist.Hint="Postleitzahl"
-                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                Text="{Binding ZipCode, UpdateSourceTrigger=PropertyChanged}">
+                    <StackPanel
+                        Grid.Row="2"
+                        Margin="0,0,0,20"
+                        HorizontalAlignment="Center">
+                        <CheckBox Content="Allgemein" 
+                                  IsChecked="{Binding CommonSelected}"
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        <CheckBox Content="BFI Anwendungsentwickler" 
+                                  IsChecked="{Binding BfiSelected}" 
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        <CheckBox Content="BFI Systemintegration" 
+                                  IsChecked="{Binding SySelected}"
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        <CheckBox Content="Informationstechniker" 
+                                  IsChecked="{Binding FwiSelected}" 
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        <CheckBox Content="Wirtschaftsinformatiker" 
+                                  IsChecked="{Binding WitSelected}" 
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                    </StackPanel>
 
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="TextChanged">
-                        <b:InvokeCommandAction Command="{Binding ZipCodeTextChangedCommand}" />
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            </TextBox>
-
-            <ComboBox
-                Grid.Column="1"
-                materialDesign:HintAssist.Hint="Ort"
-                ItemsSource="{Binding AddressView}"
-                SelectedItem="{Binding SelectedAddress, Mode=TwoWay}"
-                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                    <Button
+                        Grid.Row="3"
+                        Width="150"
+                        Height="40"
+                        FontSize="20"
+                        Command="{Binding SaveCommand}"
+                        Content="Speichern" />
+                    
+                </Grid>
+                
+                <Grid Grid.Column="1">
+                    <Border
+                        Grid.ColumnSpan="3"
+                        BorderBrush="{StaticResource MaterialDesignDivider}"
+                        BorderThickness="1"
+                        CornerRadius="5" />
+                    <ListBox VirtualizingStackPanel.IsVirtualizing="True"
+                             VirtualizingStackPanel.VirtualizationMode="Recycling"
+                             ScrollViewer.CanContentScroll="True"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             Style="{StaticResource MaterialDesignNavigationPrimaryListBox}"
+                             ItemsSource="{Binding AddressView}"
+                             SelectedItem="{Binding SelectedAddress, Mode=TwoWay}"
+                             MaxHeight="300"/>
+                </Grid>
+            </Grid>
+            
+            <DataGrid
+                Grid.Row="1"
+                AutoGenerateColumns="False"
+                Background="Transparent"
+                BorderThickness="1"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="False"
+                CellStyle="{DynamicResource DataGridCellWithoutBorder}"
+                FontSize="20"
+                HorizontalScrollBarVisibility="Disabled"
+                IsReadOnly="True"
+                SelectionMode="Single"
+                IsManipulationEnabled="False"
+                ItemsSource="{Binding Visitors}">
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding CreateDate, StringFormat=HH:mm:ss}" 
+                                        Header="ErstellZeit" 
+                                        Width="*"/>
+                    <DataGridTextColumn Binding="{Binding AddressDto.ZipCode}" 
+                                        Header="Postleitzahl" Width="*"
+                                        MaxWidth="150"/>
+                    <DataGridTextColumn Binding="{Binding AddressDto.Town}" 
+                                        Header="Ort" Width="*"/>
+                    
+                    <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[0]}" 
+                                            Header="Allgemein" Width="*"
+                                            HeaderStyle="{StaticResource DataGridCheckBoxColumnHeaderStyle}"
+                                            ElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"
+                                            EditingElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"/>
+                    <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[1]}" 
+                                            Header="BFI-AWE" Width="*"
+                                            HeaderStyle="{StaticResource DataGridCheckBoxColumnHeaderStyle}"
+                                            ElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"
+                                            EditingElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"/>
+                    <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[2]}" 
+                                            Header="BFI-SYS" Width="*"
+                                            HeaderStyle="{StaticResource DataGridCheckBoxColumnHeaderStyle}"
+                                            ElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"
+                                            EditingElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"/>
+                    <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[3]}" 
+                                            Header="FWI" Width="*"
+                                            HeaderStyle="{StaticResource DataGridCheckBoxColumnHeaderStyle}"
+                                            ElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"
+                                            EditingElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"/>
+                    <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[4]}" 
+                                            Header="WIT" Width="*"
+                                            HeaderStyle="{StaticResource DataGridCheckBoxColumnHeaderStyle}"
+                                            ElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"
+                                            EditingElementStyle="{StaticResource DataGridCheckBoxColumnElementStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
-
-        <TextBlock
-            Grid.Row="2"
-            Margin="0,0,0,20"
-            HorizontalAlignment="Center"
-            FontSize="30"
-            FontWeight="Bold"
-            Text="Interessen" />
-
-        <StackPanel
-            Grid.Row="3"
-            Margin="0,0,0,20"
-            HorizontalAlignment="Center">
-            <CheckBox Content="Allgemein" 
-                      IsChecked="{Binding CommonSelected}"
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-            <CheckBox Content="BFI Anwendungsentwickler" 
-                      IsChecked="{Binding BfiSelected}" 
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-            <CheckBox Content="BFI Systemintegration" 
-                      IsChecked="{Binding SySelected}"
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-            <CheckBox Content="Informationstechniker" 
-                      IsChecked="{Binding FwiSelected}" 
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-            <CheckBox Content="Wirtschaftsinformatiker" 
-                      IsChecked="{Binding WitSelected}" 
-                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-        </StackPanel>
-
-        <Button
-            Grid.Row="4"
-            Width="150"
-            Height="40"
-            Margin="0,0,0,20"
-            FontSize="20"
-            Command="{Binding SaveCommand}"
-            Content="Speichern" />
-
-        <DataGrid
-            Grid.Row="5"
-            AutoGenerateColumns="False"
-            Background="Transparent"
-            BorderThickness="1"
-            CanUserAddRows="False"
-            CanUserDeleteRows="False"
-            CanUserReorderColumns="False"
-            CanUserResizeColumns="False"
-            CellStyle="{DynamicResource DataGridCellWithoutBorder}"
-            FontSize="20"
-            HorizontalScrollBarVisibility="Disabled"
-            IsReadOnly="True"
-            SelectionMode="Single"
-            IsManipulationEnabled="False"
-            ItemsSource="{Binding Visitors}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding CreateDate, StringFormat=HH:mm:ss}" 
-                                    Header="ErstellZeit" 
-                                    Width="*"/>
-                <DataGridTextColumn Binding="{Binding AddressDto.ZipCode}" 
-                                    Header="Postleitzahl" Width="*"
-                                    MaxWidth="150"/>
-                <DataGridTextColumn Binding="{Binding AddressDto.Town}" 
-                                    Header="Ort" Width="*"/>
-                <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[0]}" 
-                                        Header="Allgemein" Width="*"/>
-                <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[1]}" 
-                                        Header="Anwendungsentwickler" Width="*"/>
-                <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[2]}" 
-                                        Header="Systemintegration" Width="*"/>
-                <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[3]}" 
-                                        Header="Informationstechniker" Width="*"/>
-                <DataGridCheckBoxColumn Binding="{Binding VisitorInterests[4]}" 
-                                        Header="Wirtschaftsinformatiker" Width="*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
         
     </Grid>
    
-    
-    
+   
 </Window>
