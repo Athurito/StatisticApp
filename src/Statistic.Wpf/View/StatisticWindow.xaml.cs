@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CommunityToolkit.Mvvm.Messaging;
+using Statistic.Application.Pdf.HelperModels;
 using Statistic.Wpf.Messages;
 using MessageBox = System.Windows.Forms.MessageBox;
 
@@ -19,8 +20,13 @@ public partial class StatisticWindow : Window, IRecipient<DirectoryMessage>, IRe
     public void Receive(DirectoryMessage message)
     {
         FolderBrowserDialog fbd = new();
-        fbd.ShowDialog();
-        message.Reply(fbd.SelectedPath);
+        var dialogResult = fbd.ShowDialog();
+        var dialogHelper = new DialogHelper
+        {
+            DialogResult = dialogResult != System.Windows.Forms.DialogResult.Cancel,
+            SelectedPath = fbd.SelectedPath
+        };
+        message.Reply(dialogHelper);
     }
 
     public void Receive(PdfErrorMessage message)

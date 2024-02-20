@@ -71,8 +71,12 @@ public partial class StatisticViewModel : ObservableObject
     {
         try
         {
-            var directoryPath = await WeakReferenceMessenger.Default.Send<DirectoryMessage>();
-            _pdfService.CreatePdf(Visitors!, directoryPath);
+            var dialogHelper = await WeakReferenceMessenger.Default.Send<DirectoryMessage>();
+            if (!dialogHelper.DialogResult)
+            {
+                return;
+            }
+            _pdfService.CreatePdf(Visitors!, dialogHelper.SelectedPath!);
 
             WeakReferenceMessenger.Default.Send(new PdfSuccessMessage("Pdf wurde erstellt!"));
         }
