@@ -8,13 +8,13 @@
         xmlns:viewModel="clr-namespace:Statistic.Wpf.ViewModel"
         xmlns:converters="clr-namespace:Statistic.Wpf.Converters"
         mc:Ignorable="d"
-        Width="1600"
-        Height="1200"
+        Width="1440"
+        Height="900"
         Icon="/Images/BSZLogoIconBlue.png" 
         d:DataContext="{d:DesignInstance Type=viewModel:StatisticViewModel}"
         FontSize="20"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanResize">
        
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
