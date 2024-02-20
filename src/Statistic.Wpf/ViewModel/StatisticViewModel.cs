@@ -2,15 +2,19 @@ using System.ComponentModel;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Statistic.Application.DTOs;
+using Statistic.Application.Pdf;
 using Statistic.Application.Services;
+using Statistic.Wpf.Messages;
 
 namespace Statistic.Wpf.ViewModel;
 
 public partial class StatisticViewModel : ObservableObject
 {
     [ObservableProperty] private List<AddressDto>? _addresses = [];
-    [ObservableProperty] private List<VisitorDto>? _visitors = [];
+    [NotifyCanExecuteChangedFor(nameof(CreatePdfCommand)), ObservableProperty] 
+    private List<VisitorDto>? _visitors = [];
 
     [ObservableProperty] private ICollectionView? _addressView;
     [ObservableProperty] private string _zipCode = string.Empty;
@@ -30,10 +34,13 @@ public partial class StatisticViewModel : ObservableObject
     
     private readonly IVisitorService _visitorService;
     private readonly IAddressService _addressService;
-    public StatisticViewModel(IVisitorService visitorService, IAddressService addressService)
+    private readonly IPdfService _pdfService;
+
+    public StatisticViewModel(IVisitorService visitorService, IAddressService addressService, IPdfService pdfService)
     {
         _visitorService = visitorService;
         _addressService = addressService;
+        _pdfService = pdfService;
     }
 
     [RelayCommand]
@@ -49,12 +56,31 @@ public partial class StatisticViewModel : ObservableObject
     {
         var visitorDto = CreateVisitorDto();
         await _visitorService.CreateVisitor(visitorDto);
+        await FillVisitors();
+        ResetValues();
     }
 
     [RelayCommand]
     private void ZipCodeTextChanged()
     {
         AddressView!.Refresh();
+    }
+    
+    [RelayCommand(CanExecute = nameof(CanCreatePdf) )]
+    private async Task CreatePdf()
+    {
+        try
+        {
+            var directoryPath = await WeakReferenceMessenger.Default.Send<DirectoryMessage>();
+            _pdfService.CreatePdf(Visitors!, directoryPath);
+
+            WeakReferenceMessenger.Default.Send(new PdfSuccessMessage("Pdf wurde erstellt!"));
+        }
+        catch (Exception ex)
+        {
+            var message = new PdfErrorMessage($"Fehler beim erstellen der Pdf: {ex.Message}");
+            WeakReferenceMessenger.Default.Send(message);
+        }
     }
     
     private async Task FillAddresses()
@@ -87,14 +113,14 @@ public partial class StatisticViewModel : ObservableObject
         {
             CreateDate = DateTime.Now,
             AddressDto = SelectedAddress!,
-            VisitorInterests =
-            [
+            VisitorInterests = new[]
+            {
                 CommonSelected,
                 BfiSelected,
                 SySelected,
                 FwiSelected,
                 WitSelected
-            ]
+            }
         };
 
         return visitorDto;
@@ -111,10 +137,25 @@ public partial class StatisticViewModel : ObservableObject
         var address = obj as AddressDto;
         return address!.ZipCode!.Contains(ZipCode);
     }
-    
+
+    private void ResetValues()
+    {
+        CommonSelected = false;
+        BfiSelected = false;
+        SySelected = false;
+        FwiSelected = false;
+        WitSelected = false;
+        ZipCode = string.Empty;
+        SelectedAddress = null;
+    }
     private bool CanSave()
     {
         return (CommonSelected || BfiSelected || SySelected || FwiSelected || WitSelected) 
                && SelectedAddress is not null ;
+    }
+
+    private bool CanCreatePdf()
+    {
+        return Visitors!.Count > 0;
     }
 }
