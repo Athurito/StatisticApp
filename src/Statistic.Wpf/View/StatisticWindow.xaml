@@ -193,7 +193,7 @@
                 IsReadOnly="True"
                 SelectionMode="Single"
                 IsManipulationEnabled="False"
-                ItemsSource="{Binding Visitors}">
+                ItemsSource="{Binding VisitorView}">
                 
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding CreateDate, StringFormat=HH:mm:ss}" 

@@ -7,6 +7,7 @@ using Statistic.Application.DTOs;
 using Statistic.Application.Pdf;
 using Statistic.Application.Services;
 using Statistic.Wpf.Messages;
+using Statistic.Wpf.Sorter;
 
 namespace Statistic.Wpf.ViewModel;
 
@@ -17,6 +18,7 @@ public partial class StatisticViewModel : ObservableObject
     private List<VisitorDto>? _visitors = [];
 
     [ObservableProperty] private ICollectionView? _addressView;
+    [ObservableProperty] private ListCollectionView? _visitorView;
     [ObservableProperty] private string _zipCode = string.Empty;
     
     [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
@@ -49,6 +51,7 @@ public partial class StatisticViewModel : ObservableObject
         await FillAddresses();
         await FillVisitors();
         ConfigureAddressView();
+        ConfigureVisitorView();
     }
 
     [RelayCommand(CanExecute = nameof(CanSave))]
@@ -57,6 +60,7 @@ public partial class StatisticViewModel : ObservableObject
         var visitorDto = CreateVisitorDto();
         await _visitorService.CreateVisitor(visitorDto);
         await FillVisitors();
+        ConfigureVisitorView();
         ResetValues();
     }
 
@@ -134,6 +138,12 @@ public partial class StatisticViewModel : ObservableObject
     {
         AddressView = CollectionViewSource.GetDefaultView(Addresses!);
         AddressView.Filter = FilterZipCode;
+    }
+
+    private void ConfigureVisitorView()
+    {
+        VisitorView = (ListCollectionView)CollectionViewSource.GetDefaultView(Visitors!);
+        VisitorView.CustomSort = new VisitorSorter();
     }
     
     private bool FilterZipCode(object obj)
