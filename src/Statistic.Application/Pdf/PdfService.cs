@@ -17,23 +17,14 @@ public class PdfService : IPdfService
     
     public void CreatePdf(IEnumerable<VisitorDto> visitors, string directoryPath)
     {
-        try
-        {
-            var fileName = CreateFileName();
-            var filePath = directoryPath + fileName;
-            var visitorStatistic = _statisticService.GetVisitorStatistic(visitors); 
-            
-            var pdfString = PdfBuilder.BuildPdf(visitorStatistic);
-           
-            ConvertToPdf(pdfString,filePath);
-            OpenPdf(filePath);
-        }
-        catch (Exception e)
-        {
-            throw;
-        }
+        var fileName = CreateFileName();
+        var filePath = directoryPath + fileName;
+        var visitorStatistic = _statisticService.GetVisitorStatistic(visitors.ToList()); 
         
-        
+        var pdfString = PdfBuilder.BuildPdf(visitorStatistic);
+       
+        ConvertToPdf(pdfString,filePath);
+        OpenPdf(filePath);
     }
     private static void ConvertToPdf(string html, string fileName)
     {
