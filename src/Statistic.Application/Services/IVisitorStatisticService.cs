@@ -5,5 +5,5 @@ namespace Statistic.Application.Services;
 
 public interface IVisitorStatisticService
 {
-    public VisitorStatistic GetVisitorStatistic(IEnumerable<VisitorDto> visitors);
+    public VisitorStatistic GetVisitorStatistic(List<VisitorDto> visitors);
 }

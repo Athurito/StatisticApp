@@ -1,3 +1,6 @@
+using Statistic.Application.DTOs;
+using Statistic.Application.Pdf.HelperModels;
+
 namespace Statistic.Application.Pdf;
 
 public class VisitorStatistic
@@ -8,4 +11,5 @@ public class VisitorStatistic
     public int AmountFwi { get; set; }
     public int AmountWit { get; set; }
     public int AmountVisitor { get; set; }
+    public IEnumerable<AddressStatistic>? AddressStatistics { get; set; } = [];
 }
