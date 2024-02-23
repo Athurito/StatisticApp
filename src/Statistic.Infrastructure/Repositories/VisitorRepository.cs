@@ -5,7 +5,7 @@ using Statistic.Infrastructure.Data;
 
 namespace Statistic.Infrastructure.Repositories;
 
-public class VisitorRepository : IVisitorRepository
+public class VisitorRepository : BaseRepository, IVisitorRepository
 {
     private readonly IDbContextFactory<StatisticDbContext> _context;
 
@@ -17,6 +17,9 @@ public class VisitorRepository : IVisitorRepository
     public async Task CreateVisitor(Visitor visitor)
     {
         await using var context = await _context.CreateDbContextAsync();
+        
+        EnsureConnection(context);
+        
         await context.Visitors!.AddAsync(visitor);
         await context.SaveChangesAsync();
     }
@@ -24,6 +27,9 @@ public class VisitorRepository : IVisitorRepository
     public async Task<IEnumerable<Visitor>> GetAll()
     {
         await using var context = await _context.CreateDbContextAsync();
+        
+        EnsureConnection(context);
+        
         return await context.Visitors!
             .Include(r => r.VisitorInterests)
             .Include(r => r.Address)
