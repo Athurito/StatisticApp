@@ -6,10 +6,8 @@ using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace Statistic.Wpf.View;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class StatisticWindow : Window, IRecipient<DirectoryMessage>, IRecipient<PdfErrorMessage>, IRecipient<PdfSuccessMessage>
+public partial class StatisticWindow : Window, IRecipient<DirectoryMessage>, IRecipient<PdfErrorMessage>,
+    IRecipient<PdfSuccessMessage>, IRecipient<ApplicationStartErrorMessage>
 {
     public StatisticWindow()
     {
@@ -31,11 +29,23 @@ public partial class StatisticWindow : Window, IRecipient<DirectoryMessage>, IRe
 
     public void Receive(PdfErrorMessage message)
     {
-        MessageBox.Show(message.Value,"Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        ShowErrorMessageBox(message.Value);
     }
-
+   
     public void Receive(PdfSuccessMessage message)
     {
         MessageBox.Show(message.Value,"Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
+
+    public void Receive(ApplicationStartErrorMessage message)
+    {
+        ShowErrorMessageBox(message.Value);
+        Close();
+    }
+    
+    private static void ShowErrorMessageBox(string message)
+    {
+        MessageBox.Show(message,"Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
 }
