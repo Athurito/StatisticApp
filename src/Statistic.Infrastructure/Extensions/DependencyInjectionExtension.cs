@@ -5,6 +5,7 @@ using Statistic.Domain.Repositories;
 using Statistic.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 using Statistic.Infrastructure.Configuration;
+using Statistic.Infrastructure.Service;
 
 
 namespace Statistic.Infrastructure.Extensions;
@@ -15,6 +16,7 @@ public static class DependencyInjectionExtension
     {
         service.AddTransient<IVisitorRepository, VisitorRepository>();
         service.AddTransient<IAddressRepository, AddressRepository>();
+        service.AddTransient<IDatabaseService, DatabaseService>();
         service.AddDbContextFactory<StatisticDbContext>(options =>
             options.UseMySQL(AppSettings.ConnectionString!));
         return service;
