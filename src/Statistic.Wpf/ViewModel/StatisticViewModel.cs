@@ -54,11 +54,11 @@ public partial class StatisticViewModel : ObservableObject
     {
         try
         {
-            EnsureDataBase();
-            await FillAddresses();
-            await FillVisitors();
-            ConfigureAddressView();
-            ConfigureVisitorView();
+             await EnsureDataBase();
+             await FillAddresses();
+             await FillVisitors();
+             ConfigureAddressView();
+             ConfigureVisitorView();
         }
         catch (Exception e)
         {
@@ -104,9 +104,10 @@ public partial class StatisticViewModel : ObservableObject
         }
     }
 
-    private void EnsureDataBase()
+    private async Task EnsureDataBase()
     {
         _databaseService.EnsureDataBase();
+        await _databaseService.SeedDataBaseAsync();
     }
     
     private async Task FillAddresses()
