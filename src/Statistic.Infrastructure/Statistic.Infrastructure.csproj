@@ -30,6 +30,8 @@
     <ItemGroup>
       <None Remove="addresses.sql" />
       <EmbeddedResource Include="addresses.sql" />
+      <None Remove="addresses.json" />
+      <EmbeddedResource Include="addresses.json" />
     </ItemGroup>
 
 </Project>
