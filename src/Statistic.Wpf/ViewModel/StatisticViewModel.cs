@@ -54,7 +54,7 @@ public partial class StatisticViewModel : ObservableObject
     {
         try
         {
-             await EnsureDataBase();
+             //await EnsureDataBase();
              await FillAddresses();
              await FillVisitors();
              ConfigureAddressView();
