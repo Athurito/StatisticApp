@@ -40,7 +40,8 @@ public class VisitorService : IVisitorService
         {
             CreateDate = visitor.CreateDate,
             AddressDto = ConvertAddressToDto(visitor.Address!),
-            VisitorInterests = ConvertInterestsToBool(visitor.VisitorInterests)
+            VisitorInterests = ConvertInterestsToBool(visitor.VisitorInterests),
+            VisitorAttentions = ConvertAttentionToBool(visitor.VisitorAttentions)
         };
         return visitorDto;
     }
@@ -59,6 +60,21 @@ public class VisitorService : IVisitorService
         }
         return interestsArray;
     }
+    
+    private static bool[] ConvertAttentionToBool(List<VisitorAttentions> visitorAttentions)
+    {
+        var attentionArray = new bool[Enum.GetNames(typeof(Interests)).Length];
+
+        foreach (var attention in visitorAttentions)
+        {
+            var attentionIndex = (int)attention.Attention;
+            if (attentionIndex >= 0 && attentionIndex < attentionArray.Length)
+            {
+                attentionArray[attentionIndex] = true;
+            }
+        }
+        return attentionArray;
+    }
 
     private static AddressDto ConvertAddressToDto(Address visitorAddress)
     {
@@ -74,12 +90,14 @@ public class VisitorService : IVisitorService
     {
         var userId = Guid.NewGuid();
         List<VisitorInterests> interests = [..CovertBoolToInterest(visitorDto.VisitorInterests, userId)];
+        List<VisitorAttentions> attentions = [..CovertBoolToAttention(visitorDto.VisitorAttentions, userId)];
         var visitor = new Visitor()
         {
             Id = userId,
             CreateDate = visitorDto.CreateDate,
             AddressId = visitorDto.AddressDto!.Id,
-            VisitorInterests = interests
+            VisitorInterests = interests,
+            VisitorAttentions = attentions
         };
         return visitor;
     }
@@ -97,6 +115,23 @@ public class VisitorService : IVisitorService
                 Interest = (Interests)i
             };
             interests.Add(interest);
+        }
+        return interests;
+    }
+    
+    private static List<VisitorAttentions> CovertBoolToAttention(IReadOnlyList<bool> array, Guid id)
+    {
+        var interests = new List<VisitorAttentions>();
+        for (var i = 0; i < array.Count; i++)
+        {
+            if (!array[i]) continue;
+            
+            var attentions = new VisitorAttentions()
+            {
+                VisitorId = id,
+                Attention = (Attentions)i
+            };
+            interests.Add(attentions);
         }
         return interests;
     }
