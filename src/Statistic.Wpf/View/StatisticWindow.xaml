@@ -122,34 +122,76 @@
                         </b:Interaction.Triggers>
                     </TextBox>
                     
-                    <TextBlock
-                        Grid.Row="1"
-                        Margin="0,20,0,20"
-                        HorizontalAlignment="Center"
-                        FontSize="30"
-                        FontWeight="Bold"
-                        Text="Interessen" />
-
-                    <StackPanel
-                        Grid.Row="2"
-                        Margin="0,0,0,20"
-                        HorizontalAlignment="Center">
-                        <CheckBox Content="Allgemein" 
-                                  IsChecked="{Binding CommonSelected}"
-                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-                        <CheckBox Content="BFI Anwendungsentwickler" 
-                                  IsChecked="{Binding BfiSelected}" 
-                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-                        <CheckBox Content="BFI Systemintegration" 
-                                  IsChecked="{Binding SySelected}"
-                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-                        <CheckBox Content="Informationstechniker" 
-                                  IsChecked="{Binding FwiSelected}" 
-                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-                        <CheckBox Content="Wirtschaftsinformatiker" 
-                                  IsChecked="{Binding WitSelected}" 
-                                  materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
-                    </StackPanel>
+                    
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <StackPanel
+                            Margin="0,0,0,20"
+                            HorizontalAlignment="Center">
+                            
+                            <TextBlock
+                                Margin="0,20,0,20"
+                                HorizontalAlignment="Center"
+                                FontSize="30"
+                                FontWeight="Bold"
+                                Text="Interessen" />
+                            
+                            <CheckBox Content="Allgemein" 
+                                      IsChecked="{Binding CommonSelected}"
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="BFI Anwendungsentwickler" 
+                                      IsChecked="{Binding BfiSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="BFI Systemintegration" 
+                                      IsChecked="{Binding SySelected}"
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Informationstechniker" 
+                                      IsChecked="{Binding FwiSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Wirtschaftsinformatiker" 
+                                      IsChecked="{Binding WitSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        </StackPanel>
+                        
+                        <StackPanel
+                            Margin="0,0,0,20"
+                            HorizontalAlignment="Center"
+                            Grid.Column="1">
+                            
+                            <TextBlock
+                                Margin="0,20,0,20"
+                                HorizontalAlignment="Center"
+                                FontSize="30"
+                                FontWeight="Bold"
+                                Text="Aufmerksamkeit über?" />
+                            
+                            <CheckBox Content="Homepage" 
+                                      IsChecked="{Binding HomepageSelected}"
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Freunde" 
+                                      IsChecked="{Binding FriendsSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="SocialMedia" 
+                                      IsChecked="{Binding SocialMediaSelected}"
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Schulbesuche" 
+                                      IsChecked="{Binding SchoolVisitsSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Arbeitsargentur" 
+                                      IsChecked="{Binding EmploymentAgencySelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                            <CheckBox Content="Ausbildungsmesse" 
+                                      IsChecked="{Binding TrainingFairSelected}" 
+                                      materialDesign:CheckBoxAssist.CheckBoxSize="25"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                    
+                   
 
                     <Button
                         Grid.Row="3"

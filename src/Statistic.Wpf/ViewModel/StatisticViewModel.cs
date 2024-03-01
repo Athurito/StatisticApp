@@ -23,6 +23,8 @@ public partial class StatisticViewModel : ObservableObject
     [ObservableProperty] private string _zipCode = string.Empty;
     
     [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private AddressDto? _selectedAddress;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
     private bool _commonSelected;
     [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
     private bool _bfiSelected;
@@ -32,8 +34,19 @@ public partial class StatisticViewModel : ObservableObject
     private bool _fwiSelected;
     [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
     private bool _witSelected;
+    
     [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
-    private AddressDto? _selectedAddress;
+    private bool _homepageSelected;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private bool _friendsSelected;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private bool _socialMediaSelected;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private bool _schoolVisitsSelected;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private bool _employmentAgencySelected;
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand)), ObservableProperty] 
+    private bool _trainingFairSelected;
     
     private readonly IVisitorService _visitorService;
     private readonly IAddressService _addressService;
@@ -54,7 +67,7 @@ public partial class StatisticViewModel : ObservableObject
     {
         try
         {
-             //await EnsureDataBase();
+             await EnsureDataBase();
              await FillAddresses();
              await FillVisitors();
              ConfigureAddressView();
@@ -133,6 +146,15 @@ public partial class StatisticViewModel : ObservableObject
                 SySelected,
                 FwiSelected,
                 WitSelected
+            },
+            VisitorAttentions = new[]
+            {
+                HomepageSelected,
+                FriendsSelected,
+                SocialMediaSelected,
+                SchoolVisitsSelected,
+                EmploymentAgencySelected,
+                TrainingFairSelected
             }
         };
         return visitorDto;
@@ -163,12 +185,20 @@ public partial class StatisticViewModel : ObservableObject
         SySelected = false;
         FwiSelected = false;
         WitSelected = false;
+
+        HomepageSelected = false;
+        FriendsSelected = false;
+        SocialMediaSelected = false;
+        SchoolVisitsSelected = false;
+        EmploymentAgencySelected = false;
+        TrainingFairSelected = false;
         ZipCode = string.Empty;
         SelectedAddress = null;
     }
     private bool CanSave()
     {
-        return (CommonSelected || BfiSelected || SySelected || FwiSelected || WitSelected) 
+        return (CommonSelected || BfiSelected || SySelected || FwiSelected || WitSelected) &&
+               (HomepageSelected || FriendsSelected || SocialMediaSelected || SchoolVisitsSelected || EmploymentAgencySelected || TrainingFairSelected)
                && SelectedAddress is not null ;
     }
 
