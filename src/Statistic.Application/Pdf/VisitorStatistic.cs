@@ -11,5 +11,13 @@ public class VisitorStatistic
     public int AmountFwi { get; set; }
     public int AmountWit { get; set; }
     public int AmountVisitor { get; set; }
+    
+    public int AmountHomepage{ get; set; }
+    public int AmountFriends{ get; set; }
+    public int AmountSocialMedia{ get; set; }
+    public int AmountSchoolVisits{ get; set; }
+    public int AmountEmploymentAgency{ get; set; }
+    public int AmountTrainingFair { get; set; }
+    
     public IEnumerable<AddressStatistic>? AddressStatistics { get; set; } = [];
 }
