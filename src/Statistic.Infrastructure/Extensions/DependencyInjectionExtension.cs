@@ -17,7 +17,7 @@ public static class DependencyInjectionExtension
     {
         service.AddTransient<IVisitorRepository, FileVisitorRepository>();
         service.AddTransient<IAddressRepository, FileAddressRepository>();
-        
+        service.AddTransient<IDatabaseService, FileDataService>();
         // service.AddTransient<IVisitorRepository, VisitorRepository>();
         // service.AddTransient<IAddressRepository, AddressRepository>();
         // service.AddTransient<IDatabaseService, DatabaseService>();
